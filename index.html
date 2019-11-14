@@ -1,26 +1,69 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title></title>
+        <title>Ike's Shopping Cart</title>
+
+        <style>
+            body {
+                font-family: Helvetica;
+                font-size: 16px;
+            }
+
+            .container {
+                width: 800px;
+                margin: auto;
+            }
+
+            ul {
+                margin: 0;
+                padding: 0;
+                list-style: none;
+            }
+
+            input, button {
+                padding: 0.5em;
+                font-size: 1em;
+                border: 1px solid;
+                border-radius: 0.25em;
+            }
+
+            button {
+                background-color: #000;
+                color: #fff;
+                min-width: 2.5em;
+            }
+
+            #item-list > li {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            #cart-total {
+                font-size: 2em;
+                border-top: 1px solid;
+                margin-top: 1em;
+            }
+        </style>
+
     </head>
     <body>
-        <form id="add-form">
-            <label>Name: <input id="item-name" type="text" placeholder="Item Name"></label>
-            <label>Price: <input id="item-price" type="number" step="0.01"></label>
-            <button type="submit">Add Item</button>
-        </form>
-
-
-        <div id="cart-qty">
-            <!-- cart qty here -->
-        </div>
-
-        <ul id="item-list">
-            <!-- Cart Items -->
-        </ul>
-
-        <div id="cart-total">
-            <!-- Cart Total -->
+        <div class="container">
+            <form id="add-form">
+                <label>Name: <input id="item-name" type="text" placeholder="Item Name"></label>
+                <label>Price: <input id="item-price" type="number" step="0.01"></label>
+                <button type="submit">Add Item</button>
+            </form>
+            <div id="cart-qty">
+                <!-- cart qty here -->
+            </div>
+            <ul id="item-list">
+                <!-- Cart Items -->
+            </ul>
+            <div id="cart-total">
+                <!-- Cart Total -->
+            </div>
         </div>
 
         <script>
@@ -30,7 +73,6 @@
             const addForm = document.getElementById('add-form');
             const itemName = document.getElementById('item-name');
             const itemPrice = document.getElementById('item-price');
-
             const cart = [];
 
             // --------------------------------------
@@ -92,23 +134,23 @@
             // Show items
             function showItems() {
                 const qty = getQty();
-                console.log(`You have ${qty} items in your cart.`);
-
                 cartQty.innerHTML = `You have ${qty} items in your cart.`
                 let itemStr = '';
                 for(let i = 0; i < cart.length; i +=1 ) {
                     const { name, price, qty } = cart[i];
                     itemStr += `<li>
-                    ${name} $${price} x ${qty} = ${qty * price}
-                    <button class='remove' data-name='${name}'>Remove</button>
-                    <button class='add-one' data-name='${name}'> + </button>
-                    <button class='remove-one' data-name='${name}'> - </button>
-                    <input class="update" type="number" data-name="${name}">
+                    <span>
+                        ${name} $${price} x ${qty} = ${(qty * price).toFixed(2)}
+                    </span>
+                    <span>
+                        <button class='remove' data-name='${name}'>Remove</button>
+                        <button class='add-one' data-name='${name}'> + </button>
+                        <button class='remove-one' data-name='${name}'> - </button>
+                        <input class="update" type="number" data-name="${name}">
+                    </span>
                     </li>`
                 }
                 itemList.innerHTML = itemStr;
-
-                console.log(`Total in cart: $${getTotal()}`)
                 cartTotal.innerHTML = `Total in cart: $${getTotal()}`
             }
 
@@ -165,6 +207,7 @@
             }
 
             // --------------------------------------
+            // Test data
             // addItem('Apple', 0.99);
             // addItem('Orange', 1.29);
             // addItem('Opinion', 0.02);
